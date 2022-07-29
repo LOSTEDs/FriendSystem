@@ -1,0 +1,13 @@
+name: FriendSystem
+version: 1.0
+main: me.losted.friendsystem.FriendSystem
+description: A simple BungeeCord plugin.
+author: LOSTED
+
+commands:
+  friend:
+    description: Oh yeah! This is the description!
+    usage: /friend
+  f:
+  description: OHHHHHH! THIS IS ANOTHER DESCRIPTION!
+  usage: /f
