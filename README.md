@@ -26,7 +26,7 @@ otherwise, there is no way that you can customize the design.**
 ## How To (For Server Admins)
 
 ### - How to use this FriendSystem plugin?
-   1. Download the latest release of the FriendSystem plugins.
+   1. Download the latest release of the FriendSystem plugin.
    2. Then, drag-n-drop the FriendSystem plugin to your BungeeCord `~/plugins` folder.
    3. Last but not least, just start the BungeeCord server casually. 👍
 
