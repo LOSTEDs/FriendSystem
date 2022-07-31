@@ -6,7 +6,7 @@
 
     <groupId>me.losted</groupId>
     <artifactId>FriendSystem</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>FriendSystem</name>
@@ -33,7 +33,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>/Users/losted/Coding/Java/Servers/AlphaLands/BungeeCord/plugins</outputDirectory>
+                    <outputDirectory>/Users/losted/Coding/Java/Servers/1.19/BungeeCord/plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

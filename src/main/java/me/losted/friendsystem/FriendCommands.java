@@ -1,3 +1,24 @@
+/*
+Copyright (c) 2022 LOSTED
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 package me.losted.friendsystem;
 
 import com.google.gson.Gson;
@@ -115,9 +136,10 @@ public class FriendCommands extends Command {
                         player.sendMessage(new ComponentBuilder()
                                 .append(beforeLine)
                                 .append(new ComponentBuilder("Invalid Page Number!").strikethrough(false).color(ChatColor.RED).create())
-                                .append(afterLine)
+                                .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create()) // I know I can use afterLine... However, it would bugged out sometimes...
                                 .create());
                     }
+                    break;
                 }
                 case "list": {
                     if (args.length <= 1) return;
@@ -128,7 +150,7 @@ public class FriendCommands extends Command {
                         player.sendMessage(new ComponentBuilder()
                                 .append(beforeLine)
                                 .append(new ComponentBuilder("Invalid Page Number!").strikethrough(false).color(ChatColor.RED).create())
-                                .append(afterLine)
+                                .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                                 .create());
                     }
                     break;
@@ -157,9 +179,9 @@ public class FriendCommands extends Command {
                 .append(new ComponentBuilder("/friend help").strikethrough(false).color(ChatColor.YELLOW).create())
                 .append(new ComponentBuilder(" - ").strikethrough(false).color(ChatColor.DARK_GRAY).create())
                 .append(new ComponentBuilder("Prints all available friend commands!\n").strikethrough(false).color(ChatColor.AQUA).create())
-                .append(new ComponentBuilder("/friend list").strikethrough(false).color(ChatColor.AQUA).create())
+                .append(new ComponentBuilder("/friend list").strikethrough(false).color(ChatColor.YELLOW).create())
                 .append(new ComponentBuilder(" - ").strikethrough(false).color(ChatColor.DARK_GRAY).create())
-                .append(new ComponentBuilder("List your friends\n").strikethrough(false).color(ChatColor.YELLOW).create())
+                .append(new ComponentBuilder("List your friends\n").strikethrough(false).color(ChatColor.AQUA).create())
 //                .append(new ComponentBuilder("/friend notifications").strikethrough(false).color(ChatColor.YELLOW).create())
 //                .append(new ComponentBuilder(" - ").strikethrough(false).color(ChatColor.DARK_GRAY).create())
 //                .append(new ComponentBuilder("Toggle friend join/leave notifications\n").strikethrough(false).color(ChatColor.AQUA).create())
@@ -175,12 +197,14 @@ public class FriendCommands extends Command {
 //                .append(new ComponentBuilder("/friend toggle").strikethrough(false).color(ChatColor.YELLOW).create())
 //                .append(new ComponentBuilder(" - ").strikethrough(false).color(ChatColor.DARK_AQUA).create())
 //                .append(new ComponentBuilder("Toggle friend requests\n").strikethrough(false).color(ChatColor.AQUA).create())
-                .append(afterLine)
+                .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                 .create());
     }
 
     protected void sendFriendRequestToOfflinePlayer(ProxiedPlayer sender, String receiver) {
-        if (Utilities.getOfflinePlayerUUID(receiver) == null || !FriendSystem.existedUUIDs.contains(Utilities.getOfflinePlayerUUID(receiver))) {
+        UUID receiversUUID = Utilities.getOfflinePlayerUUID(receiver);
+
+        if (receiversUUID == null || !FriendSystem.existedUUIDs.contains(receiversUUID)) {
             sender.sendMessage(new ComponentBuilder("No player found with name ").color(ChatColor.RED)
                     .append(receiver).color(ChatColor.RED)
                     .append("!").color(ChatColor.RED)
@@ -188,7 +212,6 @@ public class FriendCommands extends Command {
             return;
         }
 
-        UUID receiversUUID = Utilities.getOfflinePlayerUUID(receiver);
         UUID sendersUUID = sender.getUniqueId();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -199,8 +222,8 @@ public class FriendCommands extends Command {
                 if (p.getFriends().contains(sendersUUID)) {
                     sender.sendMessage(new ComponentBuilder()
                             .append(beforeLine)
-                            .append(new ComponentBuilder("You're already friends with this person!").strikethrough(false).color(ChatColor.RED).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder("You're already friends with this person!\n").strikethrough(false).color(ChatColor.RED).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                     return;
                 }
@@ -210,8 +233,8 @@ public class FriendCommands extends Command {
                 if (!p.getPendingRequests().isEmpty() && p.getPendingRequests().contains(sender.getUniqueId())) {
                     sender.sendMessage(new ComponentBuilder()
                             .append(beforeLine)
-                            .append(new ComponentBuilder("You've already sent a friend request to this person!").strikethrough(false).color(ChatColor.RED).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder("You've already sent a friend request to this person!\n").strikethrough(false).color(ChatColor.RED).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                     return;
                 }
@@ -221,6 +244,7 @@ public class FriendCommands extends Command {
         }
 
         FriendSystem.instance.getProxy().getScheduler().schedule(FriendSystem.instance, () -> {
+            UUID offlineReceiversUUID = Utilities.getOfflinePlayerUUID(receiver);
             try {
                 PlayerInfo p = gson.fromJson(new FileReader(new File(Utilities.dataFolderPath, receiversUUID + ".json")), PlayerInfo.class);
                 if (p.getFriends() != null) if (p.getFriends().contains(sendersUUID)) return;
@@ -229,32 +253,32 @@ public class FriendCommands extends Command {
                     sender.sendMessage(new ComponentBuilder()
                             .append(beforeLine)
                             .append(new ComponentBuilder("Your friend request to ").strikethrough(false).color(ChatColor.YELLOW).create())
-                            .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(receiversUUID) != null ? FriendSystem.instance.getProxy().getPlayer(receiversUUID).getDisplayName() : Utilities.getOfflinePlayerName(receiver)).strikethrough(false).create())
+                            .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(receiversUUID) != null ? FriendSystem.instance.getProxy().getPlayer(receiversUUID).getDisplayName() : offlineReceiversUUID + "").strikethrough(false).create())
                             .append(new ComponentBuilder(" has expired.").strikethrough(false).color(ChatColor.YELLOW).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                 }
 
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-        }, 5, TimeUnit.MINUTES);
+        }, 1, TimeUnit.MINUTES);
 
         Set<UUID> pendingRequests = new HashSet<>();
         if (FriendSystem.instance.getProxy().getPlayer(sendersUUID) != null) {
             String offlinePlayerName = Utilities.getOfflinePlayerName(receiver);
             sender.sendMessage(new ComponentBuilder()
-                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡╠═ ").color(ChatColor.BLUE).create())
-                    .append(new ComponentBuilder("FRIEND REQUEST!").color(ChatColor.DARK_AQUA).bold(true).create())
-                    .append(new ComponentBuilder(" ═╣≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡▶\n").color(ChatColor.BLUE).bold(false).create())
+                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡〗").color(ChatColor.BLUE).create())
+                    .append(new ComponentBuilder("[FRIEND REQUEST!]").color(ChatColor.DARK_AQUA).bold(true).create())
+                    .append(new ComponentBuilder("〖≡≡≡≡≡≡≡≡≡≡≡▶\n").color(ChatColor.BLUE).bold(false).create())
                     .append(new ComponentBuilder("You ").color(ChatColor.YELLOW).bold(false).create())
                     .append(new ComponentBuilder("have requested to be on ").bold(false).color(ChatColor.GREEN).create())
                     .append(new ComponentBuilder(offlinePlayerName).bold(false).create())
                     .append(new ComponentBuilder(offlinePlayerName.endsWith("s") ? "' friend list" : "'s friend list").color(ChatColor.GREEN).create())
-                    .append(new ComponentBuilder(". They have ").bold(false).color(ChatColor.GREEN).create())
+                    .append(new ComponentBuilder(". They have").bold(false).color(ChatColor.GREEN).create())
                     .append(new ComponentBuilder(" 60 ").bold(false).color(ChatColor.YELLOW).create())
                     .append(new ComponentBuilder("seconds to accept.\n").bold(false).color(ChatColor.GREEN).create())
-                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡╠══════════════╣≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
+                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡《═════⋘✖⋙═════》≡≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
                     .create());
         }
 
@@ -277,7 +301,7 @@ public class FriendCommands extends Command {
             sender.sendMessage(new ComponentBuilder()
                     .append(beforeLine)
                     .append(new ComponentBuilder("You can't add yourself as a friend!\n").strikethrough(false).color(ChatColor.RED).create())
-                    .append(afterLine)
+                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                     .create());
             return;
         }
@@ -295,8 +319,8 @@ public class FriendCommands extends Command {
                 if (p.getFriends().contains(sendersUUID)) {
                     sender.sendMessage(new ComponentBuilder()
                             .append(beforeLine)
-                            .append(new ComponentBuilder("You're already friends with this person!").strikethrough(false).color(ChatColor.RED).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder("You're already friends with this person!\n").strikethrough(false).color(ChatColor.RED).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                     return;
                 }
@@ -306,8 +330,8 @@ public class FriendCommands extends Command {
                 if (!p.getPendingRequests().isEmpty() && p.getPendingRequests().contains(sender.getUniqueId())) {
                     sender.sendMessage(new ComponentBuilder()
                             .append(beforeLine)
-                            .append(new ComponentBuilder("Please wait before sending this person another request!").strikethrough(false).color(ChatColor.RED).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder("Please wait before sending this person another request!\n").strikethrough(false).color(ChatColor.RED).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                     return;
                 }
@@ -319,7 +343,7 @@ public class FriendCommands extends Command {
         FriendSystem.instance.getProxy().getScheduler().schedule(FriendSystem.instance, () -> {
             try {
                 PlayerInfo p = gson.fromJson(new FileReader(new File(Utilities.dataFolderPath, uuid + ".json")), PlayerInfo.class);
-                if (p.getFriends() != null) if (p.getFriends().contains(sendersUUID)) return;
+                if (p.getFriends() != null) if (!p.getFriends().isEmpty()) if (p.getFriends().contains(sendersUUID)) return;
                 p.getPendingRequests().remove(sendersUUID);
                 try (FileWriter fileWriter = new FileWriter(new File(Utilities.dataFolderPath, uuid + ".json"))) {
                     gson.toJson(p, fileWriter);
@@ -330,8 +354,8 @@ public class FriendCommands extends Command {
                             .append(beforeLine)
                             .append(new ComponentBuilder("The friend request from ").strikethrough(false).color(ChatColor.YELLOW).create())
                             .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(sendersUUID) != null ? sender.getDisplayName() : senderDisplayName).strikethrough(false).create())
-                            .append(new ComponentBuilder(" has expired.").strikethrough(false).color(ChatColor.YELLOW).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder(" has expired.\n").strikethrough(false).color(ChatColor.YELLOW).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                 }
 
@@ -340,24 +364,30 @@ public class FriendCommands extends Command {
                             .append(beforeLine)
                             .append(new ComponentBuilder("Your friend request to ").strikethrough(false).color(ChatColor.YELLOW).create())
                             .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(uuid) != null ? receiver.getDisplayName() : receiverDisplayName).strikethrough(false).create())
-                            .append(new ComponentBuilder(" has expired.").strikethrough(false).color(ChatColor.YELLOW).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder(" has expired.\n").strikethrough(false).color(ChatColor.YELLOW).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
                 }
 
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-        }, 5, TimeUnit.MINUTES);
+        }, 1, TimeUnit.MINUTES);
 
         Set<UUID> pendingRequests = new HashSet<>();
         if (FriendSystem.instance.getProxy().getPlayer(sendersUUID) != null) {
             sender.sendMessage(new ComponentBuilder()
-                    .append(beforeLine)
-                    .append(new ComponentBuilder("You send a friend request to ").strikethrough(false).color(ChatColor.YELLOW).create())
-                    .append(new ComponentBuilder(receiver.getName()).strikethrough(false).color(ChatColor.YELLOW).create())
-                    .append(new ComponentBuilder("! They have 5 minutes to accept it!\n").strikethrough(false).color(ChatColor.YELLOW).create())
-                    .append(afterLine)
+                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡〗").color(ChatColor.BLUE).create())
+                    .append(new ComponentBuilder("[FRIEND REQUEST!]").bold(true).color(ChatColor.DARK_AQUA).create())
+                    .append(new ComponentBuilder("〖≡≡≡≡≡≡≡≡≡≡≡▶\n").bold(false).color(ChatColor.BLUE).create())
+                    .append(new ComponentBuilder("You ").bold(false).strikethrough(false).color(ChatColor.YELLOW).create())
+                    .append(new ComponentBuilder("have requested to be on ").bold(false).strikethrough(false).color(ChatColor.GREEN).create())
+                    .append(new ComponentBuilder(receiver.getDisplayName()).bold(false).create())
+                    .append(new ComponentBuilder(receiver.getName().endsWith("s") ? "' friend list" : "'s friend list").color(ChatColor.GREEN).create())
+                    .append(new ComponentBuilder(". They have").bold(false).color(ChatColor.GREEN).create())
+                    .append(new ComponentBuilder(" 60 ").bold(false).color(ChatColor.YELLOW).create())
+                    .append(new ComponentBuilder("seconds to accept.\n").bold(false).color(ChatColor.GREEN).create())
+                    .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡《═════⋘✖⋙═════》≡≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
                     .create());
         }
 
@@ -389,10 +419,11 @@ public class FriendCommands extends Command {
                 .append(new ComponentBuilder("\n[ACCEPT]").event(hoverAccept).event(clickAccept).strikethrough(false).bold(true).color(ChatColor.GREEN).create())
                 .append(new ComponentBuilder(" - ").event((HoverEvent) null).event((ClickEvent) null).strikethrough(false).bold(false).color(ChatColor.DARK_GRAY).create())
                 .append(new ComponentBuilder("[DENY]").event(hoverDeny).event(clickDeny).strikethrough(false).bold(true).color(ChatColor.RED).create())
-                .append(new ComponentBuilder(" - ").event((HoverEvent) null).event((ClickEvent) null).strikethrough(false).bold(false).color(ChatColor.DARK_GRAY).create())
-                .append(new ComponentBuilder("[IGNORE]\n").event(hoverIgnore).strikethrough(false).bold(true).color(ChatColor.GRAY).create())
-                .append(afterLine).event((HoverEvent) null).event((ClickEvent) null)
+//                .append(new ComponentBuilder(" - ").event((HoverEvent) null).event((ClickEvent) null).strikethrough(false).bold(false).color(ChatColor.DARK_GRAY).create())
+//                .append(new ComponentBuilder("[IGNORE]\n").event(hoverIgnore).strikethrough(false).bold(true).color(ChatColor.GRAY).create())
                 .create());
+
+        receiver.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create());
 
     }
 
@@ -409,25 +440,27 @@ public class FriendCommands extends Command {
             if (p.getPendingRequests() == null || p.getPendingRequests().isEmpty()) {
                 accepter.sendMessage(new ComponentBuilder()
                         .append(beforeLine)
-                        .append(new ComponentBuilder("That person hasn't invited you to be friends! Try").strikethrough(false).color(ChatColor.RED).create())
-                        .append(new ComponentBuilder(" /friend " + asker).strikethrough(false).color(ChatColor.YELLOW).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("That person hasn't invited you to be friends! Try").color(ChatColor.RED).create())
+                        .append(new ComponentBuilder(" /friend " + asker).color(ChatColor.YELLOW).create())
+                        .append(new ComponentBuilder("\n").create())
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
 
-            if (p.getPendingRequests().contains(FriendSystem.instance.getProxy().getPlayer(asker) == null ? Utilities.getOfflinePlayerUUID(asker) : FriendSystem.instance.getProxy().getPlayer(asker).getUniqueId())) {
+            if (p.getPendingRequests().contains(FriendSystem.instance.getProxy().getPlayer(asker) == null ? askersUUID : FriendSystem.instance.getProxy().getPlayer(asker).getUniqueId())) {
                 accepter.sendMessage(new ComponentBuilder()
                         .append(beforeLine)
-                        .append(new ComponentBuilder("You are now friends with ").strikethrough(false).color(ChatColor.GREEN).create())
-                        .append(new ComponentBuilder(Utilities.getOfflinePlayerName(asker)).strikethrough(false).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("You are now friends with ").color(ChatColor.GREEN).create())
+                        .append(new ComponentBuilder(Utilities.getOfflinePlayerName(asker)).create())
+                        .append(new ComponentBuilder("\n").create())
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
 
                 Set<UUID> pendingRequests = new HashSet<>();
                 if (p.getPendingRequests() != null) {
                     pendingRequests.addAll(p.getPendingRequests());
-                    pendingRequests.remove(Utilities.getOfflinePlayerUUID(asker));
+                    pendingRequests.remove(askersUUID);
                 }
                 if (p.getFriends() != null) friends.addAll(p.getFriends());
                 PlayerInfo newData = new PlayerInfo(accepter.getUniqueId(), p.isOnline(), friends, p.getIgnoredPlayers() == null || p.getIgnoredPlayers().isEmpty() ? null : p.getIgnoredPlayers(), pendingRequests == null ? null : pendingRequests.isEmpty() ? null : pendingRequests);
@@ -440,7 +473,8 @@ public class FriendCommands extends Command {
                             .append(beforeLine)
                             .append(new ComponentBuilder("You are now friends with ").strikethrough(false).color(ChatColor.GREEN).create())
                             .append(new ComponentBuilder(accepter.getDisplayName()).strikethrough(false).create())
-                            .append(afterLine)
+                            .append(new ComponentBuilder("\n").create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                             .create());
 
                     PlayerInfo askerData = gson.fromJson(new FileReader(new File(Utilities.dataFolderPath, FriendSystem.instance.getProxy().getPlayer(asker).getUniqueId() + ".json")), PlayerInfo.class);
@@ -470,7 +504,7 @@ public class FriendCommands extends Command {
                         .append(beforeLine)
                         .append(new ComponentBuilder("That person hasn't invited you to be friends! Try").strikethrough(false).color(ChatColor.RED).create())
                         .append(new ComponentBuilder(" /friend " + asker).strikethrough(false).color(ChatColor.YELLOW).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("\n◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
@@ -478,10 +512,10 @@ public class FriendCommands extends Command {
             if (playerInfo.getPendingRequests().contains(FriendSystem.instance.getProxy().getPlayer(asker) == null ? askersUUID : FriendSystem.instance.getProxy().getPlayer(asker).getUniqueId())) {
                 denier.sendMessage(new ComponentBuilder()
                         .append(beforeLine)
-                        .append(new ComponentBuilder("Declined ").strikethrough(false).color(ChatColor.YELLOW).create())
-                        .append(new ComponentBuilder(askersName).strikethrough(false).create())
-                        .append(new ComponentBuilder("'s friend request!").strikethrough(false).color(ChatColor.YELLOW).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("Declined ").color(ChatColor.RED).create())
+                        .append(new ComponentBuilder(askersName).create())
+                        .append(new ComponentBuilder("'s friend request!\n").color(ChatColor.RED).create())
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
 
                 playerInfo.getPendingRequests().remove(FriendSystem.instance.getProxy().getPlayer(asker) == null ? askersUUID : FriendSystem.instance.getProxy().getPlayer(asker).getUniqueId());
@@ -496,7 +530,9 @@ public class FriendCommands extends Command {
     }
 
     protected void removeFriendFromOfflinePlayer(ProxiedPlayer remover, String badFriend) {
-        if (Utilities.getOfflinePlayerUUID(badFriend) == null || !FriendSystem.existedUUIDs.contains(Utilities.getOfflinePlayerUUID(badFriend))) {
+        UUID badFriendUUID = Utilities.getOfflinePlayerUUID(badFriend);
+
+        if (badFriendUUID == null || !FriendSystem.existedUUIDs.contains(badFriendUUID)) {
             remover.sendMessage(new ComponentBuilder("No player found with name ").color(ChatColor.RED)
                     .append(badFriend).color(ChatColor.RED)
                     .append("!").color(ChatColor.RED)
@@ -505,7 +541,6 @@ public class FriendCommands extends Command {
         }
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        UUID badFriendUUID = Utilities.getOfflinePlayerUUID(badFriend);
         String offlineBadFriendName = Utilities.getOfflinePlayerName(badFriendUUID);
 
         try {
@@ -516,8 +551,8 @@ public class FriendCommands extends Command {
                         .append(beforeLine)
                         // Even though the bad friend is online, we still gonna to check it (just in case, because I don't like NPE)
                         .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(badFriend) != null ? FriendSystem.instance.getProxy().getPlayer(badFriend).getDisplayName() : offlineBadFriendName).strikethrough(false).create())
-                        .append(new ComponentBuilder(" isn't on your friend list!").strikethrough(false).color(ChatColor.RED).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder(" isn't on your friend list!\n").strikethrough(false).color(ChatColor.RED).create())
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
@@ -529,11 +564,14 @@ public class FriendCommands extends Command {
                     gson.toJson(playerInfo, fileWriter);
                     if (remover.isConnected()) {
                         remover.sendMessage(new ComponentBuilder()
-                                .append(beforeLine)
-                                .append(new ComponentBuilder("You removed ").strikethrough(false).color(ChatColor.YELLOW).create())
-                                .append(FriendSystem.instance.getProxy().getPlayer(badFriendUUID) != null ? FriendSystem.instance.getProxy().getPlayer(badFriendUUID).getDisplayName() : offlineBadFriendName).strikethrough(false)
-                                .append(new ComponentBuilder(" from your friend list!").strikethrough(false).color(ChatColor.YELLOW).create())
-                                .append(afterLine)
+                                .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡〗").color(ChatColor.BLUE).create())
+                                .append(new ComponentBuilder("[FRIEND REMOVED]").color(ChatColor.AQUA).bold(true).create())
+                                .append(new ComponentBuilder("〖≡≡≡≡≡≡≡≡≡≡≡▶\n").color(ChatColor.BLUE).bold(false).create())
+                                .append(new ComponentBuilder("You").bold(false).strikethrough(false).color(ChatColor.YELLOW).create())
+                                .append(new ComponentBuilder(" have removed ").bold(false).color(ChatColor.RED).create())
+                                .append(FriendSystem.instance.getProxy().getPlayer(badFriendUUID) != null ? FriendSystem.instance.getProxy().getPlayer(badFriendUUID).getDisplayName() : offlineBadFriendName).bold(false).strikethrough(false)
+                                .append(new ComponentBuilder(" from your friend list!\n").bold(false).strikethrough(false).color(ChatColor.RED).create())
+                                .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡《═════⋘✖⋙═════》≡≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                                 .create());
                     }
                 }
@@ -554,6 +592,7 @@ public class FriendCommands extends Command {
     protected void removeFriendFromOnlinePlayer(ProxiedPlayer remover, ProxiedPlayer badFriend) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         UUID badFriendUUID = badFriend.getUniqueId();
+        String offlineBadFriendName = Utilities.getOfflinePlayerName(badFriendUUID);
 
         try {
             PlayerInfo playerInfo = gson.fromJson(new FileReader(new File(Utilities.dataFolderPath, remover.getUniqueId() + ".json")), PlayerInfo.class);
@@ -562,9 +601,9 @@ public class FriendCommands extends Command {
                 remover.sendMessage(new ComponentBuilder()
                         .append(beforeLine)
                         // Even though the bad friend is online, we still gonna to check it (just in case, because I don't like NPE)
-                        .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(badFriend.getUniqueId()) != null ? badFriend.getDisplayName() : Utilities.getOfflinePlayerName(badFriendUUID)).strikethrough(false).color(ChatColor.RESET).create())
-                        .append(new ComponentBuilder(" isn't on your friend list!").strikethrough(false).color(ChatColor.RED).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(badFriend.getUniqueId()) != null ? badFriend.getDisplayName() : offlineBadFriendName).strikethrough(false).color(ChatColor.RESET).create())
+                        .append(new ComponentBuilder(" isn't on your friend list!\n").strikethrough(false).color(ChatColor.RED).create())
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
@@ -574,14 +613,14 @@ public class FriendCommands extends Command {
                 gson.toJson(playerInfo, fileWriter);
                 if (remover.isConnected()) {
                     remover.sendMessage(new ComponentBuilder()
-                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡│≣ ").color(ChatColor.BLUE).create())
-                            .append(new ComponentBuilder("[FRIENDS] ").bold(true).color(ChatColor.DARK_AQUA).create())
-                            .append(new ComponentBuilder("≣│≡≡≡≡≡≡≡≡≡≡≡▶\n").bold(false).color(ChatColor.BLUE).create())
-                            .append(new ComponentBuilder("You ").bold(false).color(ChatColor.YELLOW).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡〗").color(ChatColor.BLUE).create())
+                            .append(new ComponentBuilder("[FRIEND REMOVED]").bold(true).color(ChatColor.DARK_AQUA).create())
+                            .append(new ComponentBuilder("〖≡≡≡≡≡≡≡≡≡≡≡▶\n").bold(false).color(ChatColor.BLUE).create())
+                            .append(new ComponentBuilder("You").bold(false).color(ChatColor.YELLOW).create())
                             .append(new ComponentBuilder(" have removed ").bold(false).color(ChatColor.RED).create())
-                            .append(FriendSystem.instance.getProxy().getPlayer(badFriendUUID) != null ? badFriend.getDisplayName() : Utilities.getOfflinePlayerName(badFriendUUID)).bold(false)
+                            .append(FriendSystem.instance.getProxy().getPlayer(badFriendUUID) != null ? badFriend.getDisplayName() : offlineBadFriendName).bold(false)
                             .append(new ComponentBuilder(" from your friend list.\n").bold(false).color(ChatColor.RED).create())
-                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡《═════⋘✖⋙═════》≡≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
                             .create());
                 }
             }
@@ -595,14 +634,14 @@ public class FriendCommands extends Command {
 
                 if (badFriend.isConnected()) {
                     badFriend.sendMessage(new ComponentBuilder()
-                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡│≣ ").color(ChatColor.BLUE).create())
-                            .append(new ComponentBuilder("[FRIENDS] ").bold(true).color(ChatColor.DARK_AQUA).create())
-                            .append(new ComponentBuilder("≣│≡≡≡≡≡≡≡≡≡≡≡▶\n").bold(false).color(ChatColor.BLUE).create())
-                            .append(FriendSystem.instance.getProxy().getPlayer(badFriendUUID) != null ? badFriend.getDisplayName() : Utilities.getOfflinePlayerName(badFriendUUID)).bold(false)
-                            .append(new ComponentBuilder(" have removed ").bold(false).color(ChatColor.RED).create())
-                            .append(new ComponentBuilder(" you ").bold(false).color(ChatColor.YELLOW).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡〗").color(ChatColor.BLUE).create())
+                            .append(new ComponentBuilder("[FRIEND REMOVED]").bold(true).color(ChatColor.DARK_AQUA).create())
+                            .append(new ComponentBuilder("〖≡≡≡≡≡≡≡≡≡≡≡▶\n").bold(false).color(ChatColor.BLUE).create())
+                            .append(remover.getDisplayName()).bold(false)
+                            .append(new ComponentBuilder(" has removed ").bold(false).color(ChatColor.RED).create())
+                            .append(new ComponentBuilder("you").bold(false).color(ChatColor.YELLOW).create())
                             .append(new ComponentBuilder(" from their friend list.\n").bold(false).color(ChatColor.RED).create())
-                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶\n").bold(false).color(ChatColor.BLUE).create())
+                            .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡《═════⋘✖⋙═════》≡≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
                             .create());
                 }
 
@@ -657,7 +696,7 @@ public class FriendCommands extends Command {
                         .append(beforeLine)
                         .append(new ComponentBuilder("You don't have any friends yet! Add some with /friend add\n").color(ChatColor.YELLOW).create())
                         .append(new ComponentBuilder("player\n").color(ChatColor.YELLOW).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
@@ -667,7 +706,7 @@ public class FriendCommands extends Command {
                         .append(beforeLine)
                         .append(new ComponentBuilder("You don't have any friends yet! Add some with /friend add\n").color(ChatColor.YELLOW).create())
                         .append(new ComponentBuilder("player\n").color(ChatColor.YELLOW).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
@@ -676,7 +715,7 @@ public class FriendCommands extends Command {
                 player.sendMessage(new ComponentBuilder()
                         .append(beforeLine)
                         .append(new ComponentBuilder("Page number must be positive!\n").color(ChatColor.RED).create())
-                        .append(afterLine)
+                        .append(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create())
                         .create());
                 return;
             }
@@ -693,7 +732,7 @@ public class FriendCommands extends Command {
                 sendFriendsList(player, 1);
                 return;
             }
-            player.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡│ ").color(ChatColor.BLUE)
+            player.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡〗").color(ChatColor.BLUE)
                     .append(new ComponentBuilder("≪ ").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.YELLOW + "Click to view page " + (pageNumber - 1 == 0 ? pageNumber : pageNumber - 1)))).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend list " + (pageNumber - 1 == 0 ? pageNumber : pageNumber - 1))).color(ChatColor.YELLOW).create())
                     .append(new ComponentBuilder("FRIENDS LIST ").bold(true).color(ChatColor.DARK_AQUA).create())
                     .append(new ComponentBuilder("(").bold(false).color(ChatColor.BLUE).create())
@@ -701,8 +740,8 @@ public class FriendCommands extends Command {
                     .append(new ComponentBuilder("/").bold(false).color(ChatColor.DARK_AQUA).create())
                     .append(new ComponentBuilder((int) Math.ceil(playerInfo.getFriends().size() / (float) 8) + "").bold(false).color(ChatColor.DARK_AQUA).create())
                     .append(new ComponentBuilder(") ").bold(false).color(ChatColor.BLUE).create())
-                    .append(new ComponentBuilder("≫ ").bold(false).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.YELLOW + "Click to view page " + (pageNumber + 1)))).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend list " + (pageNumber + 1))).color(ChatColor.YELLOW).create())
-                    .append(new ComponentBuilder("│≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
+                    .append(new ComponentBuilder("≫").bold(false).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.YELLOW + "Click to view page " + (pageNumber + 1)))).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend list " + (pageNumber + 1))).color(ChatColor.YELLOW).create())
+                    .append(new ComponentBuilder("〖≡≡≡≡≡≡≡≡≡≡▶").bold(false).color(ChatColor.BLUE).create())
                     .create());
 
             ArrayList<UUID> orderedFriends = new ArrayList<>();
@@ -739,7 +778,7 @@ public class FriendCommands extends Command {
             });
             // =====
 
-            player.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡⋘════════════════⋙≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create());
+            player.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡≡《═════⋘✖⋙═════》≡≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create());
 
         } catch (IOException exception) {
             // TODO: report this to discord webhook

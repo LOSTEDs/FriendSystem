@@ -1,3 +1,24 @@
+/*
+Copyright (c) 2022 LOSTED
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 package me.losted.friendsystem;
 
 import com.google.gson.Gson;
@@ -21,8 +42,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Listeners implements Listener {
 
-    final BaseComponent[] beforeLine = new ComponentBuilder("-----------------------------------------------------\n").strikethrough(true).color(ChatColor.BLUE).create();
-    final BaseComponent[] afterLine = new ComponentBuilder("-----------------------------------------------------").strikethrough(true).color(ChatColor.BLUE).create();
+    final BaseComponent[] beforeLine = new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶\n").color(ChatColor.BLUE).create();
+    final BaseComponent[] afterLine = new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create();
 
     @EventHandler (priority = EventPriority.LOWEST)
     public void onPostLogin(PostLoginEvent event) {
@@ -60,13 +81,14 @@ public class Listeners implements Listener {
                     player.sendMessage(new ComponentBuilder()
                             .append(beforeLine)
                             .append(new ComponentBuilder("You have ").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.GREEN).create())
-                            .append(new ComponentBuilder(String.valueOf(p.getPendingRequests().size())).event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.GREEN).create())
+                            .append(new ComponentBuilder(p.getPendingRequests().size() + "").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.GREEN).create())
                             .append(new ComponentBuilder(" pending friend requests.\n").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.GREEN).create())
                             .append(new ComponentBuilder("Use ").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.YELLOW).create())
                             .append(new ComponentBuilder("/f requests ").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.AQUA).create())
-                            .append(new ComponentBuilder("to see them!").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.YELLOW).create())
-                            .append(afterLine).event((HoverEvent) null).event((ClickEvent) null)
+                            .append(new ComponentBuilder("to see them!\n").event(hoverRequestsList).event(clickRequestsList).strikethrough(false).color(ChatColor.YELLOW).create())
                             .create());
+
+                    player.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create());
 
                     FriendSystem.instance.getProxy().getScheduler().schedule(FriendSystem.instance, () -> {
                         try {
@@ -86,15 +108,16 @@ public class Listeners implements Listener {
                                             .append(beforeLine)
                                             .append(new ComponentBuilder("The friend request from ").strikethrough(false).color(ChatColor.YELLOW).create())
                                             .append(new ComponentBuilder(FriendSystem.instance.getProxy().getPlayer(requestUUID) != null ? FriendSystem.instance.getProxy().getPlayer(requestUUID).getDisplayName() : Utilities.getOfflinePlayerName(requestUUID)).strikethrough(false).create())
-                                            .append(new ComponentBuilder(" has expired.").strikethrough(false).color(ChatColor.YELLOW).create())
-                                            .append(afterLine)
+                                            .append(new ComponentBuilder(" has expired.\n").strikethrough(false).color(ChatColor.YELLOW).create())
                                             .create());
+
+                                    player.sendMessage(new ComponentBuilder("◀≡≡≡≡≡≡≡≡≡≡╠════════════════╣≡≡≡≡≡≡≡≡≡≡▶").color(ChatColor.BLUE).create());
                                 }
                             });
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
-                    }, 5, TimeUnit.MINUTES);
+                    }, 1, TimeUnit.MINUTES);
                 }
             }
 
