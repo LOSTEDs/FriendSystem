@@ -50,6 +50,9 @@ otherwise, there is no way that you can customize the design.**
          - Last but not least, execute `mvn package` to build/package the Project!
          - The FriendSystem plugin will be popped up in the directory where you've set it in the `pom.xml` file previously.
 
+### - What are the build requirements?
+   - [JDK 8](https://www.java.com/en/download/) or higher❗️(Pretty much this is the only requirement I suppose?)
+
    ❗️I strongly welcome everyone to submit a pull request at any point of time or submit an issue!❗️
 
 ## Frequently Asked Questions
