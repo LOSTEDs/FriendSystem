@@ -13,7 +13,6 @@ otherwise, there is no way that you can customize the design.**
 - Super easy to use (Drag-n-drop, and you are ready to go)
 - No dependencies required 🥶
 - No database required 🥶
-- Supporting [LuckPerms](https://luckperms.net) Ranks System
 - Supporting basic /friend or /f commands:
    - /friend accept \<player\> or /f accept \<player\>
    - /friend add \<player\> or /f add \<player\>
